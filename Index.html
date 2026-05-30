@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>African Queen Borah · Book a Performance</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dark: #8B6914;
+    --deep-purple: #1A0A2E;
+    --mid-purple: #2D1155;
+    --warm-brown: #4A2010;
+    --amber: #B85C00;
+    --cream: #F5EDD8;
+    --red-petal: #8B1A1A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--deep-purple);
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0;
+    animation: float-up linear infinite;
+  }
+
+  @keyframes float-up {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+  }
+
+  .leaf {
+    position: absolute;
+    font-size: 1.4rem;
+    opacity: 0;
+    animation: leaf-fall linear infinite;
+  }
+
+  @keyframes leaf-fall {
+    0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+    15% { opacity: 0.7; }
+    85% { opacity: 0.4; }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(80px); opacity: 0; }
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+  }
+
+  .crown {
+    font-size: 2.5rem;
+    display: block;
+    animation: crown-glow 3s ease-in-out infinite alternate;
+    margin-bottom: 0.3rem;
+  }
+
+  @keyframes crown-glow {
+    0% { filter: drop-shadow(0 0 8px var(--gold)); transform: translateY(0); }
+    100% { filter: drop-shadow(0 0 20px var(--gold-light)); transform: translateY(-4px); }
+  }
+
+  .brand-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 5vw, 2.8rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light), var(--gold), var(--gold-light), var(--gold-dark));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+    line-height: 1.1;
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    letter-spacing: 0.2em;
+    margin-top: 0.4rem;
+    opacity: 0.9;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.2rem auto;
+    max-width: 400px;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .divider-gem { color: var(--gold); font-size: 1rem; }
+
+  .price-note {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(245, 237, 216, 0.7);
+    margin-bottom: 2rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Pricing Cards */
+  .pricing-cards {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1rem auto 0.5rem;
+    max-width: 480px;
+  }
+
+  .pricing-card {
+    flex: 1;
+    min-width: 160px;
+    max-width: 210px;
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: transform 0.3s;
+  }
+
+  .pricing-card:hover { transform: translateY(-4px); }
+
+  .pricing-card.short {
+    background: linear-gradient(145deg, rgba(45,17,85,0.9), rgba(74,32,16,0.7));
+    border: 1px solid rgba(201,168,76,0.4);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  }
+
+  .pricing-card.long {
+    background: linear-gradient(145deg, rgba(74,32,16,0.85), rgba(184,92,0,0.6));
+    border: 2px solid var(--gold);
+    box-shadow: 0 8px 30px rgba(201,168,76,0.35);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 8px 25px rgba(201,168,76,0.25); }
+    50% { box-shadow: 0 8px 40px rgba(201,168,76,0.55); }
+  }
+
+  .pricing-card .badge {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0.8;
+    margin-bottom: 0.3rem;
+  }
+
+  .pricing-card.long .badge {
+    background: var(--gold);
+    color: var(--warm-brown);
+    opacity: 1;
+    border-radius: 50px;
+    padding: 0.2rem 0.6rem;
+    display: inline-block;
+    font-size: 0.55rem;
+  }
+
+  .pricing-card .amount {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    color: var(--gold-light);
+    text-shadow: 0 0 15px rgba(240,208,128,0.4);
+    line-height: 1;
+    margin: 0.3rem 0;
+  }
+
+  .pricing-card .type-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 0.25rem;
+  }
+
+  .pricing-card .duration-label {
+    font-style: italic;
+    font-size: 0.8rem;
+    color: rgba(245,237,216,0.6);
+  }
+
+  .form-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 1rem 4rem;
+  }
+
+  .form-card {
+    background: linear-gradient(145deg, rgba(45, 17, 85, 0.85), rgba(26, 10, 46, 0.95));
+    border: 1px solid rgba(201, 168, 76, 0.35);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(201, 168, 76, 0.2),
+      0 0 0 1px rgba(201, 168, 76, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--warm-brown), var(--gold-light), var(--amber), var(--gold-light), var(--warm-brown));
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .corner-ornament {
+    position: absolute;
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.25;
+  }
+  .corner-ornament.tl { top: 15px; left: 15px; }
+  .corner-ornament.tr { top: 15px; right: 15px; transform: scaleX(-1); }
+  .corner-ornament.bl { bottom: 15px; left: 15px; transform: scaleY(-1); }
+  .corner-ornament.br { bottom: 15px; right: 15px; transform: scale(-1); }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 1.8rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-dark), transparent);
+  }
+
+  .field-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    .field-group { grid-template-columns: 1fr; }
+    .form-card { padding: 2rem 1.2rem; }
+    .pricing-cards { gap: 0.7rem; }
+    .pricing-card { min-width: 140px; }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  label span.required { color: var(--red-petal); margin-left: 3px; }
+
+  input, select, textarea {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    background: rgba(201, 168, 76, 0.08);
+    box-shadow: 0 0 15px rgba(201, 168, 76, 0.2);
+  }
+
+  input::placeholder, textarea::placeholder { color: rgba(245, 237, 216, 0.35); }
+
+  select option {
+    background: var(--mid-purple);
+    color: var(--cream);
+  }
+
+  textarea { resize: vertical; min-height: 100px; }
+
+  .pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+  }
+
+  .pill { display: none; }
+
+  .pill + label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(201, 168, 76, 0.35);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    color: rgba(245, 237, 216, 0.7);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    background: rgba(0,0,0,0.3);
+  }
+
+  .pill:checked + label {
+    background: linear-gradient(135deg, var(--warm-brown), var(--amber));
+    border-color: var(--gold);
+    color: var(--gold-light);
+    box-shadow: 0 0 12px rgba(201, 168, 76, 0.35);
+  }
+
+  /* Price summary box — updates dynamically */
+  .price-info {
+    background: linear-gradient(135deg, rgba(74, 32, 16, 0.5), rgba(184, 92, 0, 0.3));
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .price-info h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.4rem;
+  }
+
+  .price-info p {
+    font-size: 0.9rem;
+    color: rgba(245, 237, 216, 0.75);
+    line-height: 1.6;
+  }
+
+  .price-big {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    color: var(--gold-light);
+    white-space: nowrap;
+    text-shadow: 0 0 20px rgba(240, 208, 128, 0.5);
+    transition: all 0.4s ease;
+  }
+
+  .checkbox-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .checkbox-field input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-top: 2px;
+    border-radius: 5px;
+    accent-color: var(--gold);
+    cursor: pointer;
+  }
+
+  .checkbox-field label {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: rgba(245, 237, 216, 0.75);
+    line-height: 1.5;
+  }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+    background-size: 200% 100%;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    color: var(--warm-brown);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 30px rgba(201, 168, 76, 0.4);
+  }
+
+  .submit-btn:hover {
+    background-position: 100% 0;
+    box-shadow: 0 12px 40px rgba(201, 168, 76, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn::after { content: ' ♛'; font-size: 1.1rem; }
+
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    animation: fade-in 0.5s ease;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .success-icon { font-size: 4rem; display: block; margin-bottom: 1rem; }
+
+  .success-msg h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .success-msg p {
+    color: rgba(245, 237, 216, 0.75);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 1.5rem 1rem 2rem;
+    color: rgba(245, 237, 216, 0.4);
+    font-style: italic;
+    font-size: 0.85rem;
+  }
+
+  .footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<header class="hero">
+  <span class="crown">👑</span>
+  <h1 class="brand-title">African Queen<br>Borah</h1>
+  <p class="subtitle">African Dance · Elegance · Culture</p>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-gem">✦</span>
+    <span class="divider-gem">Book a Performance</span>
+    <span class="divider-gem">✦</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Pricing Cards -->
+  <div class="pricing-cards">
+    <div class="pricing-card short">
+      <div class="badge">Short Performance</div>
+      <div class="amount">$300</div>
+      <div class="type-label">CAD</div>
+      <div class="duration-label">30 – 45 minutes</div>
+    </div>
+    <div class="pricing-card long">
+      <div class="badge">⭐ Full Performance</div>
+      <div class="amount">$500</div>
+      <div class="type-label">CAD</div>
+      <div class="duration-label">1 hour & above</div>
+    </div>
+  </div>
+
+  <p class="price-note">Professional African Dancer · Traditional Performances · Edmonton, Alberta</p>
+</header>
+
+<div class="form-wrapper">
+  <div class="form-card">
+    <span class="corner-ornament tl">❧</span>
+    <span class="corner-ornament tr">❧</span>
+    <span class="corner-ornament bl">❧</span>
+    <span class="corner-ornament br">❧</span>
+
+    <form id="bookingForm">
+
+      <div class="section-title">🌍 Your Contact Information</div>
+
+      <div class="field-group">
+        <div class="field">
+          <label for="firstName">First Name <span class="required">*</span></label>
+          <input type="text" id="firstName" placeholder="Your first name" required>
+        </div>
+        <div class="field">
+          <label for="lastName">Last Name <span class="required">*</span></label>
+          <input type="text" id="lastName" placeholder="Your last name" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number <span class="required">*</span></label>
+          <input type="tel" id="phone" placeholder="(780) 000-0000" required>
+        </div>
+        <div class="field">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" placeholder="your@email.com" required>
+        </div>
+        <div class="field full">
+          <label for="city">City / Region of Event <span class="required">*</span></label>
+          <input type="text" id="city" placeholder="e.g. Edmonton, Calgary, Vancouver…" required>
+        </div>
+      </div>
+
+      <div class="section-title">🎭 Your Event</div>
+
+      <div class="field-group">
+        <div class="field">
+          <label for="eventDate">Desired Date <span class="required">*</span></label>
+          <input type="date" id="eventDate" required>
+        </div>
+        <div class="field">
+          <label for="eventTime">Start Time <span class="required">*</span></label>
+          <input type="time" id="eventTime" required>
+        </div>
+        <div class="field">
+          <label for="duration">Performance Duration <span class="required">*</span></label>
+          <select id="duration" required>
+            <option value="" disabled selected>Select…</option>
+            <option value="30min" data-price="300">30 minutes — $300 CAD</option>
+            <option value="45min" data-price="300">45 minutes — $300 CAD</option>
+            <option value="1h" data-price="500">1 hour — $500 CAD</option>
+            <option value="1h30" data-price="500">1 hour 30 minutes — $500 CAD</option>
+            <option value="2h" data-price="500">2 hours — $500 CAD</option>
+            <option value="other" data-price="0">To be discussed</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="guests">Estimated Number of Guests</label>
+          <select id="guests">
+            <option value="" disabled selected>Select…</option>
+            <option>Fewer than 25</option>
+            <option>25 – 50</option>
+            <option>50 – 100</option>
+            <option>100 – 200</option>
+            <option>More than 200</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <label style="display:block; margin-bottom:0.6rem;">
+          Type of Event <span class="required">*</span>
+        </label>
+        <div class="pill-group">
+          <input class="pill" type="radio" name="eventType" id="t1" value="wedding" required>
+          <label for="t1">💍 Wedding</label>
+          <input class="pill" type="radio" name="eventType" id="t2" value="birthday">
+          <label for="t2">🎂 Birthday</label>
+          <input class="pill" type="radio" name="eventType" id="t3" value="gala">
+          <label for="t3">🏆 Gala / Evening Party</label>
+          <input class="pill" type="radio" name="eventType" id="t4" value="cultural">
+          <label for="t4">🌍 Cultural Event</label>
+          <input class="pill" type="radio" name="eventType" id="t5" value="corporate">
+          <label for="t5">🤝 Corporate</label>
+          <input class="pill" type="radio" name="eventType" id="t6" value="festival">
+          <label for="t6">🎪 Festival</label>
+          <input class="pill" type="radio" name="eventType" id="t7" value="other">
+          <label for="t7">✨ Other</label>
+        </div>
+      </div>
+
+      <div class="section-title">📍 Event Venue</div>
+
+      <div class="field-group">
+        <div class="field full">
+          <label for="venue">Venue / Hall Name</label>
+          <input type="text" id="venue" placeholder="e.g. African Community Centre Ballroom">
+        </div>
+        <div class="field full">
+          <label for="address">Full Address <span class="required">*</span></label>
+          <input type="text" id="address" placeholder="123 Example St, Edmonton, AB, T5A 0A1" required>
+        </div>
+      </div>
+
+      <div class="section-title">✍️ Special Requests & Details</div>
+
+      <div class="field">
+        <label for="theme">Desired Theme or Atmosphere</label>
+        <input type="text" id="theme" placeholder="e.g. Congolese dances, Afrobeat, traditional attire…">
+      </div>
+
+      <div class="field" style="margin-top:1rem;">
+        <label for="notes">Message / Special Requests</label>
+        <textarea id="notes" placeholder="Describe your event, your expectations, or ask any questions…"></textarea>
+      </div>
+
+      <div class="field" style="margin-top:1rem;">
+        <label for="source">How did you hear about African Queen Borah?</label>
+        <select id="source">
+          <option value="" disabled selected>Select…</option>
+          <option>Word of mouth</option>
+          <option>Facebook / Instagram</option>
+          <option>A friend or colleague</option>
+          <option>Previous event</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <!-- Dynamic Price Summary -->
+      <div class="price-info">
+        <div>
+          <h3>💎 Your Estimated Fee</h3>
+          <p id="priceDesc">Please select a performance duration above to see your rate.</p>
+        </div>
+        <div class="price-big" id="priceDisplay">—</div>
+      </div>
+
+      <div class="checkbox-field">
+        <input type="checkbox" id="consent" required>
+        <label for="consent">
+          I acknowledge the performance fee (<strong style="color:var(--gold-light)">$300 CAD for short · $500 CAD for full</strong>) and understand that a deposit may be required to confirm the booking. I agree that African Queen Borah will contact me to finalize all details. <span class="required">*</span>
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn">Send My Booking Request</button>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      <span class="success-icon">👑</span>
+      <h2>Request Sent Successfully!</h2>
+      <p>
+        Thank you for your interest.<br>
+        <strong style="color:var(--gold-light)">African Queen Borah</strong> will contact you very soon
+        to confirm your booking and discuss all the details of your event.<br><br>
+        <em>African Dance · Elegance · Culture</em> ✨
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <p>📍 Edmonton, Alberta · Canada &nbsp;|&nbsp; 💬 <a href="https://wa.me/1XXXXXXXXXX">WhatsApp</a></p>
+  <p style="margin-top:0.4rem;">© 2025 African Queen Borah · All Rights Reserved</p>
+</footer>
+
+<script>
+  // Particles
+  const container = document.getElementById('particles');
+  const emojis = ['🍁', '🍂', '🌺', '✨'];
+
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.width = p.style.height = (4 + Math.random() * 6) + 'px';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    container.appendChild(p);
+  }
+
+  for (let i = 0; i < 10; i++) {
+    const l = document.createElement('div');
+    l.className = 'leaf';
+    l.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    l.style.left = Math.random() * 100 + '%';
+    l.style.animationDuration = (10 + Math.random() * 15) + 's';
+    l.style.animationDelay = (Math.random() * 12) + 's';
+    container.appendChild(l);
+  }
+
+  // Min date
+  document.getElementById('eventDate').setAttribute('min', new Date().toISOString().split('T')[0]);
+
+  // Dynamic price display
+  const durationSelect = document.getElementById('duration');
+  const priceDisplay = document.getElementById('priceDisplay');
+  const priceDesc = document.getElementById('priceDesc');
+
+  durationSelect.addEventListener('change', function() {
+    const selected = this.options[this.selectedIndex];
+    const price = selected.getAttribute('data-price');
+
+    if (price === '300') {
+      priceDisplay.textContent = '$300';
+      priceDesc.innerHTML = 'Short performance (30–45 min) — <strong>$300 CAD</strong>. Travel fees may apply outside Edmonton.';
+    } else if (price === '500') {
+      priceDisplay.textContent = '$500';
+      priceDesc.innerHTML = 'Full performance (1 hour & above) — <strong>$500 CAD</strong>. Travel fees may apply outside Edmonton.';
+    } else {
+      priceDisplay.textContent = '—';
+      priceDesc.textContent = 'Duration to be discussed — Borahuzima will confirm the rate with you directly.';
+    }
+  });
+
+  // Submit
+  document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>

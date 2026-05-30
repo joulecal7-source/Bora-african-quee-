@@ -761,11 +761,50 @@
   });
 
   // Submit
-  document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  document.getElementById('bookingForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    this.style.display = 'none';
-    document.getElementById('successMsg').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'Sending… ⏳';
+    btn.disabled = true;
+
+    const formData = {
+      name: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
+      city: document.getElementById('city').value,
+      date: document.getElementById('eventDate').value,
+      time: document.getElementById('eventTime').value,
+      duration: document.getElementById('duration').value,
+      guests: document.getElementById('guests').value,
+      event_type: document.querySelector('input[name="eventType"]:checked')?.value || 'Not specified',
+      venue: document.getElementById('venue').value,
+      address: document.getElementById('address').value,
+      theme: document.getElementById('theme').value,
+      message: document.getElementById('notes').value,
+      heard_from: document.getElementById('source').value,
+      estimated_fee: document.getElementById('priceDisplay').textContent
+    };
+
+    try {
+      const response = await fetch('https://formspree.io/f/mqejokrb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        this.style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        btn.textContent = 'Error — Please try again ❌';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      btn.textContent = 'Network error — Please try again ❌';
+      btn.disabled = false;
+    }
   });
 </script>
 </body>

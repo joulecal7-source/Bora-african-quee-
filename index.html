@@ -528,16 +528,16 @@
   <!-- Pricing Cards -->
   <div class="pricing-cards">
     <div class="pricing-card short">
-      <div class="badge">Short Performance</div>
+      <div class="badge">💃 Dance</div>
       <div class="amount">$300</div>
       <div class="type-label">CAD</div>
-      <div class="duration-label">30 – 45 minutes</div>
+      <div class="duration-label">5 – 10 minutes</div>
     </div>
     <div class="pricing-card long">
-      <div class="badge">⭐ Full Performance</div>
+      <div class="badge">⭐ Entertainment</div>
       <div class="amount">$500</div>
       <div class="type-label">CAD</div>
-      <div class="duration-label">1 hour & above</div>
+      <div class="duration-label">30 min – 1 hour</div>
     </div>
   </div>
 
@@ -590,15 +590,11 @@
           <input type="time" id="eventTime" required>
         </div>
         <div class="field">
-          <label for="duration">Performance Duration <span class="required">*</span></label>
+          <label for="duration">Type of Performance <span class="required">*</span></label>
           <select id="duration" required>
             <option value="" disabled selected>Select…</option>
-            <option value="30min" data-price="300">30 minutes — $300 CAD</option>
-            <option value="45min" data-price="300">45 minutes — $300 CAD</option>
-            <option value="1h" data-price="500">1 hour — $500 CAD</option>
-            <option value="1h30" data-price="500">1 hour 30 minutes — $500 CAD</option>
-            <option value="2h" data-price="500">2 hours — $500 CAD</option>
-            <option value="other" data-price="0">To be discussed</option>
+            <option value="dance" data-price="300">💃 Dance (5–10 min) — $300 CAD</option>
+            <option value="entertainment" data-price="500">⭐ Entertainment / Motivation (30 min–1h) — $500 CAD</option>
           </select>
         </div>
         <div class="field">
@@ -685,7 +681,7 @@
       <div class="checkbox-field">
         <input type="checkbox" id="consent" required>
         <label for="consent">
-          I acknowledge the performance fee (<strong style="color:var(--gold-light)">$300 CAD for short · $500 CAD for full</strong>) and understand that a deposit may be required to confirm the booking. I agree that African Queen Borah will contact me to finalize all details. <span class="required">*</span>
+          I acknowledge the performance fee (<strong style="color:var(--gold-light)">$300 CAD for Dance · $500 CAD for Entertainment</strong>) and understand that a deposit may be required to confirm the booking. I agree that African Queen Borah will contact me to finalize all details. <span class="required">*</span>
         </label>
       </div>
 
@@ -750,10 +746,10 @@
 
     if (price === '300') {
       priceDisplay.textContent = '$300';
-      priceDesc.innerHTML = 'Short performance (30–45 min) — <strong>$300 CAD</strong>. Travel fees may apply outside Edmonton.';
+      priceDesc.innerHTML = '💃 Dance (5–10 min) — <strong>$300 CAD</strong>. Travel fees may apply outside Edmonton.';
     } else if (price === '500') {
       priceDisplay.textContent = '$500';
-      priceDesc.innerHTML = 'Full performance (1 hour & above) — <strong>$500 CAD</strong>. Travel fees may apply outside Edmonton.';
+      priceDesc.innerHTML = '⭐ Entertainment / Motivation (30 min–1h) — <strong>$500 CAD</strong>. Travel fees may apply outside Edmonton.';
     } else {
       priceDisplay.textContent = '—';
       priceDesc.textContent = 'Duration to be discussed — Borahuzima will confirm the rate with you directly.';
